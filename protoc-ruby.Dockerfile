@@ -19,8 +19,8 @@ RUN mkdir -p /protobuf \
 # Install Ruby
 RUN apk add -U ruby ruby-rake ruby-io-console ruby-bigdecimal libstdc++ tzdata
 
-# Install Ruby build tools
-RUN apk add -U gcc libc-dev make ruby-dev
+# Install tools needed for build and release steps
+RUN apk add -U gcc libc-dev make ruby-dev ca-certificates
 
 # Install bundler
 RUN gem install bundler --no-ri --no-rdoc \
