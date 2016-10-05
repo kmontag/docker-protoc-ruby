@@ -1,13 +1,18 @@
 FROM alpine:3.3
 
+# Update repositories
+RUN apk update && apk add ca-certificates && update-ca-certificates
+
 # Compile protobuf, modified from pulcy/protoc
 RUN mkdir -p /protobuf \
   && buildDeps='autoconf automake curl g++ git libtool make' \
   && apk add -U $buildDeps \
   && rm -rf /var/cache/apk/* \
-  && git clone https://github.com/google/protobuf.git /protobuf \
   && cd /protobuf \
-  && git checkout 5e933847cc9e7826f1a9ee8b3dc1df4960b1ea5d \
+  && git init . \
+  && git remote add origin https://github.com/google/protobuf.git \
+  && git fetch --depth=1 origin v3.1.0 \
+  && git checkout FETCH_HEAD \
   && ./autogen.sh \
   && ./configure --prefix=/usr \
   && make \
